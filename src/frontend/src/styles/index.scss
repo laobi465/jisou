@@ -1,21 +1,85 @@
-// 全局基础样式
+// =====================================================================
+// jisou 全局基础样式
+// 来源：docs/UI-DESIGN.md
+// 现代简约 · 精致克制
+// =====================================================================
+
 @use 'sass:map';
 
-* {
+// =====================================================================
+// 一、基础重置
+// =====================================================================
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html,
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: $font-family;
   font-size: $font-size-body;
+  font-weight: $font-weight-regular;
   line-height: $line-height-body;
   color: $color-text-primary;
-  background-color: $color-bg-primary;
+  background-color: $color-bg-secondary;
+  letter-spacing: $letter-spacing-normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv11", "ss01", "ss03";
+  min-height: 100vh;
+}
+
+// 极淡网格背景纹理（克制装饰，仅在主背景上）
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient($bg-grid-color 1px, transparent 1px),
+    linear-gradient(90deg, $bg-grid-color 1px, transparent 1px);
+  background-size: $bg-grid-size $bg-grid-size;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(ellipse at top, rgba(0, 0, 0, 0.6), transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at top, rgba(0, 0, 0, 0.6), transparent 70%);
+}
+
+#app {
+  position: relative;
+  z-index: $z-base;
+  min-height: 100vh;
+}
+
+// =====================================================================
+// 二、排版基础
+// =====================================================================
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-heading;
+  color: $color-text-primary;
+  letter-spacing: $letter-spacing-tight;
+}
+
+h1 { font-size: $font-size-h1; }
+h2 { font-size: $font-size-h2; }
+h3 { font-size: $font-size-h3; }
+
+p {
+  margin: 0;
+  line-height: $line-height-body;
 }
 
 a {
@@ -26,33 +90,91 @@ a {
   &:hover {
     color: $color-primary-hover;
   }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+    border-radius: $radius-xs;
+  }
 }
 
-// 容器
+code,
+pre,
+kbd {
+  font-family: $font-family-mono;
+  font-size: 0.92em;
+}
+
+small {
+  font-size: $font-size-small;
+  color: $color-text-secondary;
+}
+
+strong, b {
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+// =====================================================================
+// 三、容器与栅格
+// =====================================================================
+
 .container {
+  width: 100%;
   max-width: $container-max-width;
   margin: 0 auto;
-  padding: 0 $spacing-lg;
+  padding: 0 $spacing-xl;
 
   @media (max-width: $breakpoint-mobile) {
     padding: 0 $spacing-base;
   }
 }
 
-// 卡片
+.container--narrow {
+  max-width: $container-max-width-narrow;
+}
+
+.container--admin {
+  max-width: $container-max-width-admin;
+}
+
+.container--wide {
+  max-width: $breakpoint-wide;
+}
+
+// =====================================================================
+// 四、卡片（基础类，组件 JCard 优先）
+// =====================================================================
+
 .card {
   background: $color-bg-primary;
   border: 1px solid $color-border;
   border-radius: $radius-lg;
   padding: $spacing-base;
-  transition: box-shadow $transition-fast;
+  transition:
+    box-shadow $transition-fast,
+    transform $transition-fast,
+    border-color $transition-fast;
 
   &:hover {
     box-shadow: $shadow-card-hover;
   }
 }
 
-// 来源 tag
+.card--hoverable:hover {
+  transform: translateY(-1px);
+  border-color: $color-border-strong;
+}
+
+.card--elevated {
+  box-shadow: $shadow-card-elevated;
+  border-color: transparent;
+}
+
+// =====================================================================
+// 五、来源 tag（基础类，组件 JSourceTag 优先）
+// =====================================================================
+
 .source-tag {
   display: inline-flex;
   align-items: center;
@@ -60,26 +182,34 @@ a {
   padding: 0 $spacing-sm;
   border-radius: $radius-sm;
   font-size: $font-size-small;
-  background: rgba($color-primary, 0.12);
+  font-weight: $font-weight-medium;
+  background: $color-primary-soft;
   color: $color-primary;
+  white-space: nowrap;
 }
 
-// 资源状态徽章
+// =====================================================================
+// 六、状态徽章（基础类，组件 JStatusBadge 优先）
+// =====================================================================
+
 .status-badge {
   display: inline-flex;
   align-items: center;
+  gap: $spacing-xs;
   height: $height-tag;
   padding: 0 $spacing-sm;
   border-radius: $radius-sm;
   font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
 
   &--active {
-    background: rgba($color-accent-2, 0.12);
+    background: $color-accent-2-soft;
     color: $color-accent-2;
   }
 
   &--invalid {
-    background: rgba($color-danger, 0.12);
+    background: $color-danger-soft;
     color: $color-danger;
   }
 
@@ -87,4 +217,317 @@ a {
     background: rgba($color-text-secondary, 0.12);
     color: $color-text-secondary;
   }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+}
+
+// =====================================================================
+// 七、分割线
+// =====================================================================
+
+.divider {
+  display: block;
+  height: 1px;
+  border: 0;
+  background: $gradient-divider;
+  margin: $spacing-lg 0;
+}
+
+.divider--vertical {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  vertical-align: middle;
+  background: $color-border;
+  margin: 0 $spacing-sm;
+}
+
+// =====================================================================
+// 八、文本工具类
+// =====================================================================
+
+.text-primary { color: $color-text-primary; }
+.text-secondary { color: $color-text-secondary; }
+.text-tertiary { color: $color-text-placeholder; }
+.text-danger { color: $color-danger; }
+.text-success { color: $color-accent-2; }
+.text-warning { color: $color-warning; }
+.text-info { color: $color-accent-1; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// =====================================================================
+// 九、间距工具类
+// =====================================================================
+
+@each $name, $value in (
+  'xs': $spacing-xs,
+  'sm': $spacing-sm,
+  'md': $spacing-md,
+  'base': $spacing-base,
+  'lg': $spacing-lg,
+  'xl': $spacing-xl,
+  '2xl': $spacing-2xl,
+  '3xl': $spacing-3xl
+) {
+  .mt-#{$name} { margin-top: $value; }
+  .mb-#{$name} { margin-bottom: $value; }
+  .ml-#{$name} { margin-left: $value; }
+  .mr-#{$name} { margin-right: $value; }
+  .pt-#{$name} { padding-top: $value; }
+  .pb-#{$name} { padding-bottom: $value; }
+  .pl-#{$name} { padding-left: $value; }
+  .pr-#{$name} { padding-right: $value; }
+}
+
+// =====================================================================
+// 十、显示工具类
+// =====================================================================
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-start { justify-content: flex-start; }
+.justify-end { justify-content: flex-end; }
+.flex-1 { flex: 1; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-xs { gap: $spacing-xs; }
+.gap-sm { gap: $spacing-sm; }
+.gap-md { gap: $spacing-md; }
+.gap-base { gap: $spacing-base; }
+.gap-lg { gap: $spacing-lg; }
+.gap-xl { gap: $spacing-xl; }
+
+.block { display: block; }
+.inline-block { display: inline-block; }
+.hidden { display: none; }
+
+// =====================================================================
+// 十一、可访问性
+// =====================================================================
+
+:focus-visible {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+  border-radius: $radius-xs;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: $spacing-base;
+  z-index: $z-tooltip;
+  padding: $spacing-sm $spacing-base;
+  background: $color-primary;
+  color: $color-text-inverse;
+  border-radius: $radius-base;
+  font-weight: $font-weight-medium;
+
+  &:focus {
+    top: $spacing-base;
+  }
+}
+
+// =====================================================================
+// 十二、骨架屏
+// =====================================================================
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: $color-bg-tertiary;
+  border-radius: $radius-sm;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 100%
+    );
+    animation: skeleton-shimmer 1.4s infinite;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+// =====================================================================
+// 十三、动效关键帧
+// =====================================================================
+
+// 进入：自下而上淡入
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 进入：纯淡入
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// 进入：缩放淡入
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// 进入：自右向左
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// 微脉冲（用于状态点）
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+// 旋转（loading）
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// 动效工具类
+.animate-fade-up { animation: fade-up $duration-base $ease-decelerate both; }
+.animate-fade-in { animation: fade-in $duration-base $ease-standard both; }
+.animate-scale-in { animation: scale-in $duration-fast $ease-decelerate both; }
+.animate-slide-in-right { animation: slide-in-right $duration-base $ease-decelerate both; }
+
+// =====================================================================
+// 十四、滚动条
+// =====================================================================
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-border;
+  border-radius: $radius-pill;
+  border: 2px solid $color-bg-secondary;
+
+  &:hover {
+    background: $color-border-strong;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+// 选中态
+::selection {
+  background: rgba(30, 91, 184, 0.18);
+  color: $color-text-primary;
+}
+
+// =====================================================================
+// 十五、表单基础
+// =====================================================================
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+input,
+textarea,
+select {
+  &::placeholder {
+    color: $color-text-placeholder;
+  }
+}
+
+// =====================================================================
+// 十六、Element Plus 微调
+// =====================================================================
+
+.el-button {
+  --el-button-font-weight: #{$font-weight-medium};
+}
+
+.el-input__wrapper {
+  border-radius: $radius-base !important;
 }

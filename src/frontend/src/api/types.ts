@@ -46,6 +46,9 @@ export interface ResourceItem {
   file_type: string | null;
   origin_url: string | null;
   extracted_at: string;
+  status?: 'active' | 'invalid' | 'unchecked';
+  last_checked?: string;
+  file_count?: number;
 }
 
 // 搜索结果

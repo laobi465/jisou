@@ -1,25 +1,49 @@
 // jisou 设计 token
 // 来源：docs/UI-DESIGN.md
-// 现代简约风格 —— 禁用 emoji / 毛玻璃 / 暗黑 / 夸张渐变
+// 现代简约 · 精致克制 · 藏蓝专业色系
+// 禁用 emoji / 毛玻璃 / 暗黑 / 夸张渐变 / 炫光
 
-// ===== 色彩 =====
-$color-bg-primary: #ffffff;       // 主背景 纯白
-$color-bg-secondary: #f7f9fc;     // 次背景 极浅冷灰
+// =====================================================================
+// 一、色彩系统
+// =====================================================================
 
-$color-primary: #1e5bb8;          // 主色 藏蓝
-$color-primary-hover: #174a99;    // 主色 hover
+// 背景层
+$color-bg-primary: #ffffff;          // 主背景 纯白
+$color-bg-secondary: #f7f9fc;        // 次背景 极浅冷灰
+$color-bg-tertiary: #eef2f7;         // 三级背景 区块底
+$color-bg-overlay: rgba(30, 91, 184, 0.02); // 极淡主色叠层
 
-$color-accent-1: #3a7bd5;         // 辅助色1 湖蓝
-$color-accent-2: #2e8b6f;         // 辅助色2 墨绿
+// 主色（藏蓝低饱和度专业色系）
+$color-primary: #1e5bb8;
+$color-primary-hover: #174a99;
+$color-primary-active: #123a7a;
+$color-primary-soft: rgba(30, 91, 184, 0.08);
+$color-primary-softer: rgba(30, 91, 184, 0.04);
 
-$color-warning: #d97706;          // 警告 琥珀
-$color-danger: #c53030;           // 危险 砖红
+// 辅助色
+$color-accent-1: #3a7bd5;            // 链接 / 标签 湖蓝
+$color-accent-2: #2e8b6f;            // 成功 / 在线 墨绿
+$color-accent-2-soft: rgba(46, 139, 111, 0.10);
 
-$color-text-primary: #2d3748;     // 主文字 深灰
-$color-text-secondary: #718096;   // 次文字 中灰
-$color-text-placeholder: #a0aec0; // 占位文字 浅灰
+// 语义色
+$color-warning: #d97706;             // 琥珀
+$color-warning-soft: rgba(217, 119, 6, 0.10);
+$color-danger: #c53030;              // 砖红
+$color-danger-soft: rgba(197, 48, 48, 0.10);
+$color-info: #3a7bd5;
+$color-info-soft: rgba(58, 123, 213, 0.10);
 
-$color-border: #e2e8f0;           // 分割线 极浅灰
+// 文字
+$color-text-primary: #2d3748;        // 深灰
+$color-text-secondary: #718096;      // 中灰
+$color-text-placeholder: #a0aec0;    // 浅灰
+$color-text-disabled: #cbd5e0;       // 禁用
+$color-text-inverse: #ffffff;
+
+// 边框 / 分割
+$color-border: #e2e8f0;
+$color-border-strong: #cbd5e0;
+$color-divider: rgba(226, 232, 240, 0.6);
 
 // 来源标识色（仅用于 tag）
 $color-source-baidu: #3a7bd5;
@@ -29,23 +53,45 @@ $color-source-115: #6b7280;
 $color-source-tg: #3a7bd5;
 $color-source-self: #1e5bb8;
 
-// ===== 字体 =====
-$font-family: "Inter", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+// =====================================================================
+// 二、字体系统
+// =====================================================================
 
+// 字体族
+$font-family: "Inter", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-family-mono: "JetBrains Mono", "SF Mono", "Menlo", "Consolas", monospace;
+
+// 字号梯度
+$font-size-display: 36px;            // 大型展示
 $font-size-h1: 28px;
 $font-size-h2: 22px;
 $font-size-h3: 18px;
+$font-size-body-lg: 16px;
 $font-size-body: 14px;
 $font-size-small: 12px;
+$font-size-caption: 11px;
 
+// 字重
 $font-weight-regular: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 
+// 行高
 $line-height-heading: 1.4;
+$line-height-subheading: 1.5;
 $line-height-body: 1.6;
+$line-height-tight: 1.2;
 
-// ===== 间距（4 倍数）=====
+// 字距
+$letter-spacing-tight: -0.01em;
+$letter-spacing-normal: 0;
+$letter-spacing-wide: 0.02em;
+$letter-spacing-wider: 0.08em;
+
+// =====================================================================
+// 三、间距系统（4 倍数）
+// =====================================================================
+
 $spacing-xs: 4px;
 $spacing-sm: 8px;
 $spacing-md: 12px;
@@ -56,34 +102,118 @@ $spacing-2xl: 32px;
 $spacing-3xl: 40px;
 $spacing-4xl: 48px;
 $spacing-5xl: 64px;
+$spacing-6xl: 80px;
 
-// ===== 圆角 =====
+// =====================================================================
+// 四、圆角系统
+// =====================================================================
+
+$radius-xs: 2px;
 $radius-sm: 4px;
-$radius-base: 6px;     // 按钮、输入框
-$radius-lg: 8px;       // 卡片
+$radius-base: 6px;                   // 按钮、输入框
+$radius-lg: 8px;                     // 卡片
+$radius-xl: 12px;                    // 大卡片 / 模块
 $radius-pill: 9999px;
 
-// ===== 组件尺寸 =====
+// =====================================================================
+// 五、组件尺寸
+// =====================================================================
+
 $height-button: 40px;
 $height-button-sm: 32px;
+$height-button-lg: 48px;
 $height-input: 40px;
-$height-nav: 56px;
+$height-input-lg: 48px;
+$height-nav: 64px;
 $height-tag: 22px;
+$height-tag-lg: 28px;
 
-// ===== 阴影 =====
-$shadow-button: 0 1px 2px rgba(30, 91, 184, 0.1);
-$shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.04);
+// =====================================================================
+// 六、阴影系统
+// =====================================================================
 
-// ===== 动效 =====
-$transition-fast: 0.18s ease;
-$transition-search: 0.2s ease;
+// 按钮阴影
+$shadow-button: 0 1px 2px rgba(30, 91, 184, 0.10);
+$shadow-button-hover: 0 2px 6px rgba(30, 91, 184, 0.14);
+$shadow-button-active: 0 1px 2px rgba(30, 91, 184, 0.10);
 
-// ===== 布局 =====
+// 卡片阴影
+$shadow-card: none;
+$shadow-card-hover: 0 4px 14px rgba(30, 91, 184, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+$shadow-card-elevated: 0 8px 24px rgba(30, 91, 184, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+
+// 弹层 / 浮动
+$shadow-dropdown: 0 8px 24px rgba(45, 55, 72, 0.10), 0 2px 6px rgba(45, 55, 72, 0.04);
+$shadow-modal: 0 24px 48px rgba(45, 55, 72, 0.16), 0 6px 14px rgba(45, 55, 72, 0.06);
+
+// 输入框聚焦
+$shadow-focus: 0 0 0 3px rgba(30, 91, 184, 0.12);
+$shadow-focus-danger: 0 0 0 3px rgba(197, 48, 48, 0.12);
+
+// =====================================================================
+// 七、动效系统
+// =====================================================================
+
+// 时长
+$duration-instant: 0.08s;
+$duration-fast: 0.18s;
+$duration-base: 0.24s;
+$duration-slow: 0.36s;
+$duration-slower: 0.5s;
+
+// 缓动
+$ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+$ease-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
+$ease-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
+$ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+// 复合过渡
+$transition-fast: $duration-fast $ease-standard;
+$transition-base: $duration-base $ease-standard;
+$transition-search: $duration-base $ease-decelerate;
+
+// =====================================================================
+// 八、布局系统
+// =====================================================================
+
 $container-max-width: 1200px;
 $container-max-width-admin: 1440px;
+$container-max-width-narrow: 720px;
 $sidebar-width-admin: 240px;
 $grid-gutter: 24px;
+$grid-columns: 12;
 
-// ===== 断点 =====
+// z-index 层级
+$z-base: 1;
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-fixed: 300;
+$z-modal-backdrop: 400;
+$z-modal: 500;
+$z-popover: 600;
+$z-tooltip: 700;
+
+// =====================================================================
+// 九、响应式断点
+// =====================================================================
+
 $breakpoint-mobile: 768px;
 $breakpoint-tablet: 1023px;
+$breakpoint-desktop: 1280px;
+$breakpoint-wide: 1536px;
+
+// =====================================================================
+// 十、装饰细节（极克制）
+// =====================================================================
+
+// 网格背景（极淡）
+$bg-grid-color: rgba(30, 91, 184, 0.025);
+$bg-grid-size: 32px;
+
+// 模糊半径
+$blur-sm: 4px;
+$blur-md: 8px;
+
+// 渐变（克制使用）
+$gradient-hero: linear-gradient(180deg, rgba(30, 91, 184, 0.04) 0%, rgba(30, 91, 184, 0) 60%);
+$gradient-divider: linear-gradient(90deg, transparent 0%, $color-border 20%, $color-border 80%, transparent 100%);
