@@ -1,8 +1,8 @@
 # jisou 规划 / 规范 / 开发流程文档（SPEC.md）
 
-> 版本：0.2.0 ｜ 最后更新：2026-07-25
+> 版本：0.3.0 ｜ 最后更新：2026-07-25
 > 维护规范：web-project-flow /bdocs (references/09-docs-lifecycle.md)
-> 配套文档：[PROJECT.md](./PROJECT.md) ｜ [UI-DESIGN.md](./UI-DESIGN.md)
+> 配套文档：[PROJECT.md](./PROJECT.md) ｜ [UI-DESIGN.md](./UI-DESIGN.md) ｜ [DEPLOY-BT.md](./DEPLOY-BT.md)
 
 ---
 
@@ -12,7 +12,7 @@
 
 | 里程碑 | 阶段目标 | 主要交付物 | 状态 |
 |---|---|---|---|
-| M0 基础设施 | 项目骨架、CI、Docker、文档体系 | 仓库结构 / Docker Compose / PROJECT+SPEC+UI 文档 | [已实现] |
+| M0 基础设施 | 项目骨架、CI、宝塔部署、文档体系 | 仓库结构 / 宝塔部署教程 / PROJECT+SPEC+UI 文档 | [已实现] |
 | M1 Provider 抽象 + 单源打通 | 抽象层 + 1 个网盘爬虫 + 搜索可用 | ProviderInterface / SelfIndexedProvider / 1 个爬虫 / 搜索 API | [规划] |
 | M2 多源聚合 + 失效检测 | 接入 4 个国内主流网盘 + TG 索引 + 失效检测 worker | 4 网盘爬虫 / RealtimeAggregatorProvider / CheckJob | [规划] |
 | M3 用户体系 + 社区 | 注册登录 / 收藏 / 历史 / 举报 | 用户模块 / 收藏历史举报 API | [规划] |
@@ -26,13 +26,14 @@
 | 版本 | 范围 | 对应里程碑 |
 |---|---|---|
 | 0.1.0 | 文档体系（PROJECT + SPEC + UI 设计） | M0 |
-| 0.2.0 | M0 骨架：后端 Provider 抽象 + 前端骨架 + Docker | M0 |
-| 0.3.0 | Provider 抽象 + 百度网盘单源打通 | M1 |
-| 0.4.0 | 4 国内主流网盘 + TG 索引聚合 | M2 |
-| 0.5.0 | 用户体系 + 收藏 / 历史 / 举报 | M3 |
-| 0.6.0 | 超管后台 MVP | M4 |
-| 0.7.0 | 解析模块（按来源开关） | M5 |
-| 0.8.0 | 二线盘 + 国际盘扩展 | M6 |
+| 0.2.0 | M0 骨架：后端 Provider 抽象 + 前端骨架 | M0 |
+| 0.3.0 | 部署方案改为宝塔面板，新增详细部署教程 | M0 |
+| 0.4.0 | Provider 抽象 + 百度网盘单源打通 | M1 |
+| 0.5.0 | 4 国内主流网盘 + TG 索引聚合 | M2 |
+| 0.6.0 | 用户体系 + 收藏 / 历史 / 举报 | M3 |
+| 0.7.0 | 超管后台 MVP | M4 |
+| 0.8.0 | 解析模块（按来源开关） | M5 |
+| 0.9.0 | 二线盘 + 国际盘扩展 | M6 |
 | 1.0.0 | 性能优化 + 监控 + 上线 | M7 |
 
 ### 1.3 功能优先级与排期
@@ -342,8 +343,10 @@ docs(spec): 补充错误码枚举区间
 #### 3.3.3 回滚方案
 
 - 数据库迁移：每个 migration 必须有对应 rollback
-- 部署：保留上一版本镜像，可一键切换
+- 部署：宝塔保留上一版本代码快照（`/www/wwwroot/jisou-api.bak`），可一键切换
+- 前端：保留上一版本 `dist` 快照（`/www/wwwroot/jisou-web.bak`），可一键切换
 - 索引：Meilisearch 索引版本化，回滚不影响搜索
+- 详见 [DEPLOY-BT.md §14.1 代码更新](./DEPLOY-BT.md)
 
 ### 3.4 CI/CD 流程
 
@@ -358,12 +361,19 @@ docs(spec): 补充错误码枚举区间
 
 #### CD（合并到 main 触发）
 
-1. 构建后端镜像 + 前端镜像
-2. 推送镜像仓库
-3. SSH 到生产机，docker compose pull + up
-4. 运行数据库迁移
-5. 重启 queue worker
-6. 健康检查
+部署方式：**宝塔面板**，详见 [DEPLOY-BT.md](./DEPLOY-BT.md)。
+
+CD 自动化步骤（可通过 SSH 脚本或宝塔 Webhook 实现）：
+
+1. SSH 到生产机
+2. 备份当前代码：`cp -r /www/wwwroot/jisou-api /www/wwwroot/jisou-api.bak`
+3. 拉取新代码：`cd /www/wwwroot/jisou-api && git pull origin main`
+4. 安装依赖：`cd src/backend && composer install --no-dev --optimize-autoloader`
+5. 运行数据库迁移：`php think migrate:run`
+6. 修复权限：`chown -R www:www .`
+7. 重启队列 worker：`supervisorctl restart jisou-queue jisou-sync jisou-check`
+8. 前端构建并上传到 `/www/wwwroot/jisou-web`
+9. 健康检查：`curl https://域名/health`
 
 ### 3.5 协作流程
 
@@ -401,3 +411,4 @@ docs(spec): 补充错误码枚举区间
 |---|---|---|
 | 0.1.0 | 2026-07-25 | 初始版本：里程碑 / 路线图 / 技术规范 / 开发流程 / 错误码枚举 |
 | 0.2.0 | 2026-07-25 | M0 骨架完成：里程碑 M0 标记已实现，版本路线图顺延 |
+| 0.3.0 | 2026-07-25 | 部署方案改为宝塔面板：M0 交付物更新，CD 流程改为 SSH+宝塔，版本路线图顺延 |

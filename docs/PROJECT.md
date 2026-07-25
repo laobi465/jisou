@@ -1,8 +1,8 @@
 # jisou 项目文档（PROJECT.md）
 
-> 版本：0.2.0 ｜ 最后更新：2026-07-25
+> 版本：0.3.0 ｜ 最后更新：2026-07-25
 > 维护规范：web-project-flow /bdocs (references/09-docs-lifecycle.md)
-> 配套文档：[SPEC.md](./SPEC.md) ｜ [UI-DESIGN.md](./UI-DESIGN.md)
+> 配套文档：[SPEC.md](./SPEC.md) ｜ [UI-DESIGN.md](./UI-DESIGN.md) ｜ [DEPLOY-BT.md](./DEPLOY-BT.md)
 
 ---
 
@@ -144,35 +144,55 @@
 
 ### 4.1 环境要求
 
-- PHP 8.2+
-- Composer 2.5+
-- Node.js 18+
-- MySQL 8.0+
-- Redis 7.0+
-- Meilisearch 1.6+
+生产部署：**宝塔面板 9.x + Linux**
 
-### 4.2 安装
+| 组件 | 版本 | 用途 |
+|---|---|---|
+| 宝塔面板 | 9.x | 运维管理 |
+| Nginx | 1.24+ | Web 服务 / 反向代理 |
+| MySQL | 8.0 | 主存储 |
+| PHP | 8.2+ | 后端运行时 |
+| Redis | 7.0+ | 缓存 / 队列 |
+| Meilisearch | 1.6+ | 全文搜索引擎 |
+| Node.js | 18 LTS | 前端构建（构建机用） |
+| Composer | 2.5+ | PHP 依赖管理 |
+| Supervisor | 4.x+ | 队列 / 爬虫常驻进程守护 |
+
+### 4.2 部署方式
+
+**生产环境统一采用宝塔面板部署**，详细步骤见：
+
+→ [DEPLOY-BT.md（宝塔面板部署详细教程）](./DEPLOY-BT.md)
+
+教程覆盖：宝塔安装、LNMP 环境、PHP 扩展、Meilisearch 安装、站点配置、Nginx 伪静态与反代、SSL、Supervisor 守护进程、定时任务、健康检查、日常运维。
+
+### 4.3 本地开发
 
 ```bash
-# 克隆仓库
+# 1. 克隆仓库
 git clone https://github.com/laobi465/jisou.git
 cd jisou
 
-# 后端
+# 2. 后端
 cd src/backend
 composer install
 cp .env.example .env
-# 编辑 .env，按提示填写数据库 / Redis / Meilisearch / 各 Provider 凭证
-php artisan key:generate   # 待核实：ThinkPHP 8 等效命令
+# 编辑 .env，本地数据库 / Redis / Meilisearch 填 127.0.0.1 + 本地凭证
 php think migrate:run
+php think run --host=0.0.0.0 --port=8000
 
-# 前端
+# 3. 前端
 cd ../frontend
+cp .env.example .env.local
+# 编辑 .env.local，VITE_API_BASE_URL=http://localhost:8000
 npm install
 npm run dev
+
+# 4. 队列 worker（另开终端）
+cd src/backend && php think queue:work
 ```
 
-### 4.3 配置
+### 4.4 配置
 
 所有可变值从 `.env` 与数据库 `provider_configs` 表读取，禁止硬编码。
 
@@ -211,22 +231,6 @@ MAIL_PORT=587
 MAIL_USERNAME=<在此填写 SMTP 用户名>
 MAIL_PASSWORD=<在此填写 SMTP 密码>
 MAIL_FROM_ADDRESS=<在此填写发件邮箱>
-```
-
-### 4.4 运行
-
-```bash
-# 启动后端 API
-cd src/backend && php think run --host=0.0.0.0 --port=8000
-
-# 启动队列 worker
-php think queue:work
-
-# 启动前端开发服务器
-cd src/frontend && npm run dev
-
-# 生产构建
-npm run build
 ```
 
 ### 4.5 示例
@@ -269,7 +273,8 @@ jisou/
 ├── docs/                              # 项目文档
 │   ├── PROJECT.md                     # 本文件
 │   ├── SPEC.md                        # 规划 / 规范 / 开发流程
-│   └── UI-DESIGN.md                   # UI 设计文档
+│   ├── UI-DESIGN.md                   # UI 设计文档
+│   └── DEPLOY-BT.md                   # 宝塔面板部署详细教程
 ├── src/
 │   ├── backend/                       # ThinkPHP 8 后端
 │   │   ├── app/
@@ -304,11 +309,6 @@ jisou/
 │       ├── public/
 │       ├── package.json
 │       └── vite.config.ts
-├── docker/                            # Docker 配置
-│   ├── docker-compose.yml
-│   ├── backend.Dockerfile
-│   ├── frontend.Dockerfile
-│   └── meilisearch.Dockerfile
 ├── web-project-flow/                  # web-project-flow skill（位于 skills 分支）
 └── README.md
 ```
@@ -327,3 +327,4 @@ jisou/
 |---|---|---|
 | 0.1.0 | 2026-07-25 | 初始版本：架构设计、功能清单、目录结构、配置规范 |
 | 0.2.0 | 2026-07-25 | M0 骨架：ThinkPHP 8 后端、Vue3 前端、Provider 抽象层、错误码枚举、Docker 配置 |
+| 0.3.0 | 2026-07-25 | 部署方案改为宝塔面板，新增 DEPLOY-BT.md 详细教程，移除 Docker 配置 |
