@@ -1,0 +1,89 @@
+// jisou 设计 token
+// 来源：docs/UI-DESIGN.md
+// 现代简约风格 —— 禁用 emoji / 毛玻璃 / 暗黑 / 夸张渐变
+
+// ===== 色彩 =====
+$color-bg-primary: #ffffff;       // 主背景 纯白
+$color-bg-secondary: #f7f9fc;     // 次背景 极浅冷灰
+
+$color-primary: #1e5bb8;          // 主色 藏蓝
+$color-primary-hover: #174a99;    // 主色 hover
+
+$color-accent-1: #3a7bd5;         // 辅助色1 湖蓝
+$color-accent-2: #2e8b6f;         // 辅助色2 墨绿
+
+$color-warning: #d97706;          // 警告 琥珀
+$color-danger: #c53030;           // 危险 砖红
+
+$color-text-primary: #2d3748;     // 主文字 深灰
+$color-text-secondary: #718096;   // 次文字 中灰
+$color-text-placeholder: #a0aec0; // 占位文字 浅灰
+
+$color-border: #e2e8f0;           // 分割线 极浅灰
+
+// 来源标识色（仅用于 tag）
+$color-source-baidu: #3a7bd5;
+$color-source-aliyun: #1e5bb8;
+$color-source-quark: #2e8b6f;
+$color-source-115: #6b7280;
+$color-source-tg: #3a7bd5;
+$color-source-self: #1e5bb8;
+
+// ===== 字体 =====
+$font-family: "Inter", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+$font-size-h1: 28px;
+$font-size-h2: 22px;
+$font-size-h3: 18px;
+$font-size-body: 14px;
+$font-size-small: 12px;
+
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+
+$line-height-heading: 1.4;
+$line-height-body: 1.6;
+
+// ===== 间距（4 倍数）=====
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-base: 16px;
+$spacing-lg: 20px;
+$spacing-xl: 24px;
+$spacing-2xl: 32px;
+$spacing-3xl: 40px;
+$spacing-4xl: 48px;
+$spacing-5xl: 64px;
+
+// ===== 圆角 =====
+$radius-sm: 4px;
+$radius-base: 6px;     // 按钮、输入框
+$radius-lg: 8px;       // 卡片
+$radius-pill: 9999px;
+
+// ===== 组件尺寸 =====
+$height-button: 40px;
+$height-button-sm: 32px;
+$height-input: 40px;
+$height-nav: 56px;
+$height-tag: 22px;
+
+// ===== 阴影 =====
+$shadow-button: 0 1px 2px rgba(30, 91, 184, 0.1);
+$shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+// ===== 动效 =====
+$transition-fast: 0.18s ease;
+$transition-search: 0.2s ease;
+
+// ===== 布局 =====
+$container-max-width: 1200px;
+$container-max-width-admin: 1440px;
+$sidebar-width-admin: 240px;
+$grid-gutter: 24px;
+
+// ===== 断点 =====
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1023px;

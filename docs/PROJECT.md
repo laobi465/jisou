@@ -1,6 +1,6 @@
 # jisou 项目文档（PROJECT.md）
 
-> 版本：0.1.0 ｜ 最后更新：2026-07-25
+> 版本：0.2.0 ｜ 最后更新：2026-07-25
 > 维护规范：web-project-flow /bdocs (references/09-docs-lifecycle.md)
 > 配套文档：[SPEC.md](./SPEC.md) ｜ [UI-DESIGN.md](./UI-DESIGN.md)
 
@@ -326,3 +326,4 @@ jisou/
 | 版本 | 日期 | 变更 |
 |---|---|---|
 | 0.1.0 | 2026-07-25 | 初始版本：架构设计、功能清单、目录结构、配置规范 |
+| 0.2.0 | 2026-07-25 | M0 骨架：ThinkPHP 8 后端、Vue3 前端、Provider 抽象层、错误码枚举、Docker 配置 |

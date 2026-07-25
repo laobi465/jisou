@@ -1,0 +1,60 @@
+{
+    "name": "jisou/backend",
+    "description": "jisou 聚合搜索引擎后端",
+    "type": "project",
+    "keywords": [
+        "jisou",
+        "search-engine",
+        "thinkphp",
+        "aggregator"
+    ],
+    "license": "Apache-2.0",
+    "require": {
+        "php": ">=8.2.0",
+        "topthink/framework": "^8.0",
+        "topthink/think-orm": "^3.0|^4.0",
+        "topthink/think-filesystem": "^2.0|^3.0",
+        "topthink/think-queue": "^3.0",
+        "topthink/think-migration": "^3.0",
+        "firebase/php-jwt": "^6.10",
+        "meilisearch/meilisearch-php": "^1.6",
+        "predis/predis": "^2.0",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "require-dev": {
+        "topthink/think-dumper": "^1.0",
+        "topthink/think-trace": "^2.0",
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.40"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        },
+        "psr-0": {
+            "": "extend/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\": "tests"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "topthink/think-installer": true
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php think service:discover",
+            "@php think vendor:publish"
+        ],
+        "test": "phpunit",
+        "lint": "php-cs-fixer fix --dry-run --diff",
+        "fix": "php-cs-fixer fix",
+        "analyse": "phpstan analyse app --level=5"
+    }
+}

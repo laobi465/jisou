@@ -1,0 +1,43 @@
+# ===== 依赖目录 =====
+/vendor/
+/node_modules/
+
+# ===== 构建产物 =====
+/dist/
+/build/
+*.log
+.DS_Store
+.think/
+
+# ===== 环境与密钥（禁止入库）=====
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ===== 运行时 =====
+runtime/
+storage/logs/*
+!storage/logs/.gitkeep
+storage/cache/*
+!storage/cache/.gitkeep
+
+# ===== 前端 =====
+src/frontend/dist/
+src/frontend/.vite/
+*.tsbuildinfo
+
+# ===== 测试报告 =====
+coverage/
+.phpunit.result.cache
+test-results/
+
+# ===== Docker =====
+docker/data/
